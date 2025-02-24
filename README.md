@@ -1,7 +1,7 @@
-# Advanced Port Scanner Documentation
+# Quick&Dirty Port Scanner Documentation
 
 ## Overview
-A comprehensive TCP port scanner for Linux systems that provides detailed information about open ports, running services, and associated processes.
+A simple TCP port scanner for Linux systems that provides detailed information about open ports, running services, and associated processes.
 
 ## Technical Specifications
 
