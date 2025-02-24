@@ -67,17 +67,7 @@ Required header files:
 - Linux kernel 4.0 or later
 - Root/sudo privileges for complete system access
 - Access to /proc filesystem
-- Minimum 512MB RAM
 - Network interface (supports localhost scanning)
-
-## Installation
-```bash
-# Compile the program
-gcc -o portscan permutations.c
-
-# Run with root privileges
-sudo ./portscan
-```
 
 ## Limitations
 1. Linux-specific implementation (/proc filesystem dependency)
