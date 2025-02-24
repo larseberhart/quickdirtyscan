@@ -39,12 +39,12 @@
  */
 
 // System includes for core functionality
-#include <stdio.h>     // Provides: printf, fprintf, fopen, fclose, FILE*, etc.
-#include <stdlib.h>    // Provides: atoi, exit, malloc, free, etc.
-#include <string.h>    // Provides: memset, strncmp, strcspn, etc.
-#include <unistd.h>    // Provides: close, getpid, access, etc.
-#include <errno.h>     // Provides: errno variable and error definitions
-#include <ctype.h>     // Provides: isdigit and other character classification
+#include <stdio.h>  // Provides: printf, fprintf, fopen, fclose, FILE*, etc.
+#include <stdlib.h> // Provides: atoi, exit, malloc, free, etc.
+#include <string.h> // Provides: memset, strncmp, strcspn, etc.
+#include <unistd.h> // Provides: close, getpid, access, etc.
+#include <errno.h>  // Provides: errno variable and error definitions
+#include <ctype.h>  // Provides: isdigit and other character classification
 
 // Network-specific includes
 #include <sys/socket.h> // Provides: socket, connect, bind, sockaddr structs
@@ -52,19 +52,19 @@
 #include <netdb.h>      // Provides: getservbyport, struct servent
 
 // Process and filesystem includes
-#include <dirent.h>    // Provides: opendir, readdir, struct dirent
-#include <pwd.h>       // Provides: getpwuid, struct passwd
+#include <dirent.h> // Provides: opendir, readdir, struct dirent
+#include <pwd.h>    // Provides: getpwuid, struct passwd
 
 // Program constants with detailed explanations
-#define START_PORT 1    // Initial port number to begin scanning (lowest valid TCP port)
-#define END_PORT 65535  // Final port number to scan (highest valid TCP port)
-#define COL_PORT 8      // Width of PORT column (accommodates up to 5 digits plus padding)
-#define COL_STATE 12    // Width of STATE column (fits "ESTABLISHED" plus padding)
-#define COL_SERVICE 20  // Width of SERVICE column (fits common service names plus padding)
-#define COL_PROC 30     // Width of PROCESS column (fits process details plus padding)
+#define START_PORT 1   // Initial port number to begin scanning (lowest valid TCP port)
+#define END_PORT 65535 // Final port number to scan (highest valid TCP port)
+#define COL_PORT 8     // Width of PORT column (accommodates up to 5 digits plus padding)
+#define COL_STATE 12   // Width of STATE column (fits "ESTABLISHED" plus padding)
+#define COL_SERVICE 20 // Width of SERVICE column (fits common service names plus padding)
+#define COL_PROC 30    // Width of PROCESS column (fits process details plus padding)
 
 // Global process ID variable
-pid_t our_pid;         // Stores the scanner's own process ID for self-connection filtering
+pid_t our_pid; // Stores the scanner's own process ID for self-connection filtering
 
 // Function to get process information
 char *get_process_info(int port)
@@ -132,12 +132,12 @@ char *get_process_info(int port)
                                     }
                                 }
 
-                                struct passwd *pw = getpwuid(uid); // Get user information
+                                struct passwd *pw = getpwuid(uid);           // Get user information
                                 snprintf(process_info, sizeof(process_info), // Format process information
-                                         "%-15s  PID: %-6s  User: %-8s",// Format process information
-                                         proc_name,// Format process information
-                                         entry->d_name,// Format process information
-                                         pw ? pw->pw_name : "unknown"); // Format process information
+                                         "%-15s  PID: %-6s  User: %-8s",     // Format process information
+                                         proc_name,                          // Format process information
+                                         entry->d_name,                      // Format process information
+                                         pw ? pw->pw_name : "unknown");      // Format process information
                             }
                             fclose(comm_fp);   // Close comm file
                             fclose(status_fp); // Close status file
@@ -183,32 +183,32 @@ int check_port_state(int port)
 }
 
 // Main program entry point
-int main(void)  // void explicitly states no parameters are expected
+int main(void) // void explicitly states no parameters are expected
 {
     // Store our own process ID to avoid self-detection later
     our_pid = getpid();
 
     // Initialize required structures for socket operations
-    struct servent *service;    // Will hold service information from system database
-    struct sockaddr_in addr;    // Will hold socket addressing information
-    int sock;                   // Will store socket file descriptor
+    struct servent *service; // Will hold service information from system database
+    struct sockaddr_in addr; // Will hold socket addressing information
+    int sock;                // Will store socket file descriptor
 
     // Print program banner and scanning range
     printf("Scanning %s ports %d to %d...\n\n", "127.0.0.1", START_PORT, END_PORT);
 
     // Print formatted header with column titles
-    printf("\nPort Scanner Results\n");  // Main title
+    printf("\nPort Scanner Results\n"); // Main title
     printf("%-*s %-*s %-*s %-*s\n",     // Column headers with proper width
-           COL_PORT, "PORT",             // Port number column
-           COL_STATE, "STATE",           // Port state column
-           COL_SERVICE, "SERVICE",       // Service name column
-           COL_PROC, "PROCESS");         // Process information column
-    
+           COL_PORT, "PORT",            // Port number column
+           COL_STATE, "STATE",          // Port state column
+           COL_SERVICE, "SERVICE",      // Service name column
+           COL_PROC, "PROCESS");        // Process information column
+
     // Print separator line for visual clarity
-    printf("%-*s %-*s %-*s %-*s\n",     // Separator line with matching widths
-           COL_PORT, "--------",         // Port column separator
-           COL_STATE, "-----------",     // State column separator
-           COL_SERVICE, "-------------------",  // Service column separator
+    printf("%-*s %-*s %-*s %-*s\n",                     // Separator line with matching widths
+           COL_PORT, "--------",                        // Port column separator
+           COL_STATE, "-----------",                    // State column separator
+           COL_SERVICE, "-------------------",          // Service column separator
            COL_PROC, "------------------------------"); // Process column separator
 
     // Scan each port in the specified range
@@ -234,19 +234,20 @@ int main(void)  // void explicitly states no parameters are expected
             char *proc_info = get_process_info(port);    // Get process info
 
             // Format and print results for open ports with proper column alignment
-            printf("%-*d %-*s %-*s %s\n",    // Format string for aligned output
-                   COL_PORT, port,            // Port number with fixed width
-                   COL_STATE,                 // State column with fixed width
-                   port_state == 2 ? "LISTENING" :    // Show LISTENING if state is 2
-                   port_state == 1 ? "ESTABLISHED" :  // Show ESTABLISHED if state is 1
-                   "OPEN",                           // Show OPEN for other states
-                   COL_SERVICE,                      // Service column with fixed width
-                   service ? service->s_name : "unknown",  // Service name if available
+            printf("%-*d %-*s %-*s %s\n",          // Format string for aligned output
+                   COL_PORT, port,                 // Port number with fixed width
+                   COL_STATE,                      // State column with fixed width
+                   port_state == 2 ? "LISTENING" : // Show LISTENING if state is 2
+                       port_state == 1 ? "ESTABLISHED"
+                                       :                  // Show ESTABLISHED if state is 1
+                       "OPEN",                            // Show OPEN for other states
+                   COL_SERVICE,                           // Service column with fixed width
+                   service ? service->s_name : "unknown", // Service name if available
                    proc_info[0] ? proc_info : "unknown"); // Process info if available
         }
 
         close(sock); // Clean up socket
     }
 
-    return 0;  // Return success status to operating system
+    return 0; // Return success status to operating system
 }
