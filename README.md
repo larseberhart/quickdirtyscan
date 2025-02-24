@@ -105,16 +105,6 @@ sudo ./portscan
 - Memory allocation failures
 - File system access errors
 
-## Future Improvements
-1. Remote host scanning capability
-2. UDP port scanning support
-3. Configuration file support
-4. Output formatting options
-5. Scan speed optimization
-6. Rate limiting implementation
-7. Network interface selection
-8. JSON/XML output formats
-
 ## License
 MIT License - Free to use, modify, and distribute
 
