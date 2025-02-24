@@ -1,5 +1,5 @@
 /*
- * Advanced Port Scanner (localhost)
+ * Quick and Dirty Port Scanner (localhost)
  * -------------------------------
  *
  * Purpose:
