@@ -10,7 +10,6 @@ A simple TCP port scanner for Linux systems that provides detailed information a
 - **Architecture**: x86-64
 - **Operating System**: Linux (Tested on Arch Linux)
 - **Compiler**: GCC 13.2.1
-- **Build System**: Make
 
 ### Dependencies
 Required system libraries:
